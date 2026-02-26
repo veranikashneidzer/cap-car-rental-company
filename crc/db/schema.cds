@@ -1,3 +1,5 @@
+
+using { cuid } from '@sap/cds/common';
 namespace sap.carRentalCompany;
 
 entity Cars {
@@ -12,6 +14,7 @@ entity Cars {
   customer : Association to many Rentals on customer.car = $self;
 }
 
+@assert.unique: { email: [email] }
 entity Customers {
   key driverLicenseNumber : String;
   firstName : String;
@@ -22,8 +25,7 @@ entity Customers {
   rentals : Association to many Rentals on rentals.customer = $self;
 }
 
-entity Rentals {
-  key ID: UUID;
+entity Rentals : cuid {
   rentalDate : Date;
   returnDate : Date;
   customer : Association to Customers;
@@ -31,8 +33,7 @@ entity Rentals {
   price : Decimal;
 }
 
-entity Maintenance {
-  key ID: UUID;
+entity Maintenance : cuid {
   car : Association to Cars;
   startDate : Date;
   endDate : Date;
