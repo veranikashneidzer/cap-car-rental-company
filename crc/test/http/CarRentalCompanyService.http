@@ -1,0 +1,197 @@
+@server=http://localhost:4004
+@username=alice
+@password=
+
+
+### Cars
+# @name Cars_GET
+GET {{server}}/odata/v4/car-rental-company/Cars
+Authorization: Basic {{username}}:{{password}}
+
+
+### Cars
+# @name Cars_POST
+POST {{server}}/odata/v4/car-rental-company/Cars
+Content-Type: application/json
+Authorization: Basic {{username}}:{{password}}
+
+{
+  "licensePlate": "Cars-26808143",
+  "brand": "brand-26808143",
+  "model": "model-26808143",
+  "manufactureDate": "2015-07-11",
+  "price": 52.66,
+  "availability": 36,
+  "category": "category-26808143"
+}
+
+
+### Cars
+# @name Cars_PATCH
+PATCH {{server}}/odata/v4/car-rental-company/Cars/Cars-26808143
+Content-Type: application/json
+Authorization: Basic {{username}}:{{password}}
+
+{
+  "licensePlate": "Cars-26808143",
+  "brand": "brand-26808143",
+  "model": "model-26808143",
+  "manufactureDate": "2015-07-11",
+  "price": 52.66,
+  "availability": 36,
+  "category": "category-26808143"
+}
+
+
+### Cars
+# @name Cars_DELETE
+DELETE {{server}}/odata/v4/car-rental-company/Cars/Cars-26808143
+Content-Type: application/json
+Authorization: Basic {{username}}:{{password}}
+
+
+### Rentals
+# @name Rentals_GET
+GET {{server}}/odata/v4/car-rental-company/Rentals
+Authorization: Basic {{username}}:{{password}}
+
+
+### Rentals
+# @name Rentals_POST
+POST {{server}}/odata/v4/car-rental-company/Rentals
+Content-Type: application/json
+Authorization: Basic {{username}}:{{password}}
+
+{
+  "ID": "23630001-a562-4793-8574-d71195e89838",
+  "rentalDate": "2021-02-14",
+  "returnDate": "2007-05-31",
+  "customer": {
+    "driverLicenseNumber": "Customers-6769206"
+  },
+  "car": {
+    "licensePlate": "Cars-26808143"
+  },
+  "price": 82.56
+}
+
+
+### Rentals
+# @name Rentals_PATCH
+PATCH {{server}}/odata/v4/car-rental-company/Rentals/23630001-a562-4793-8574-d71195e89838
+Content-Type: application/json
+Authorization: Basic {{username}}:{{password}}
+
+{
+  "ID": "23630001-a562-4793-8574-d71195e89838",
+  "rentalDate": "2021-02-14",
+  "returnDate": "2007-05-31",
+  "customer": {
+    "driverLicenseNumber": "Customers-6769206"
+  },
+  "car": {
+    "licensePlate": "Cars-26808143"
+  },
+  "price": 82.56
+}
+
+
+### Rentals
+# @name Rentals_DELETE
+DELETE {{server}}/odata/v4/car-rental-company/Rentals/23630001-a562-4793-8574-d71195e89838
+Content-Type: application/json
+Authorization: Basic {{username}}:{{password}}
+
+
+### Customers
+# @name Customers_GET
+GET {{server}}/odata/v4/car-rental-company/Customers
+Authorization: Basic {{username}}:{{password}}
+
+
+### Customers
+# @name Customers_POST
+POST {{server}}/odata/v4/car-rental-company/Customers
+Content-Type: application/json
+Authorization: Basic {{username}}:{{password}}
+
+{
+  "driverLicenseNumber": "Customers-6769206",
+  "firstName": "firstName-6769206",
+  "lastName": "lastName-6769206",
+  "email": "email-6769206",
+  "phone": "phone-6769206",
+  "address": "address-6769206"
+}
+
+
+### Customers
+# @name Customers_PATCH
+PATCH {{server}}/odata/v4/car-rental-company/Customers/Customers-6769206
+Content-Type: application/json
+Authorization: Basic {{username}}:{{password}}
+
+{
+  "driverLicenseNumber": "Customers-6769206",
+  "firstName": "firstName-6769206",
+  "lastName": "lastName-6769206",
+  "email": "email-6769206",
+  "phone": "phone-6769206",
+  "address": "address-6769206"
+}
+
+
+### Customers
+# @name Customers_DELETE
+DELETE {{server}}/odata/v4/car-rental-company/Customers/Customers-6769206
+Content-Type: application/json
+Authorization: Basic {{username}}:{{password}}
+
+
+### Maintenances
+# @name Maintenances_GET
+GET {{server}}/odata/v4/car-rental-company/Maintenances
+Authorization: Basic {{username}}:{{password}}
+
+
+### Maintenances
+# @name Maintenances_POST
+POST {{server}}/odata/v4/car-rental-company/Maintenances
+Content-Type: application/json
+Authorization: Basic {{username}}:{{password}}
+
+{
+  "ID": "30395800-0394-43b5-af5e-78a431be1d16",
+  "car": {
+    "licensePlate": "Cars-26808143"
+  },
+  "startDate": "2016-06-26",
+  "endDate": "2006-11-01",
+  "issue": "issue-30395800",
+  "cost": 80.5
+}
+
+
+### Maintenances
+# @name Maintenances_PATCH
+PATCH {{server}}/odata/v4/car-rental-company/Maintenances/30395800-0394-43b5-af5e-78a431be1d16
+Content-Type: application/json
+Authorization: Basic {{username}}:{{password}}
+
+{
+  "ID": "30395800-0394-43b5-af5e-78a431be1d16",
+  "car": {
+    "licensePlate": "Cars-26808143"
+  },
+  "startDate": "2016-06-26",
+  "endDate": "2006-11-01",
+  "issue": "issue-30395800",
+  "cost": 80.5
+}
+
+
+### Maintenances
+# @name Maintenances_DELETE
+DELETE {{server}}/odata/v4/car-rental-company/Maintenances/30395800-0394-43b5-af5e-78a431be1d16
+Content-Type: application/json
+Authorization: Basic {{username}}:{{password}}
