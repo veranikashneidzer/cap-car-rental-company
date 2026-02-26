@@ -1,0 +1,28 @@
+{
+  "name": "carRentalCompany",
+  "version": "1.0.0",
+  "description": "A simple CAP project.",
+  "repository": "https://github.com/veranikashneidzer/cap-car-rental-company",
+  "license": "UNLICENSED",
+  "private": true,
+  "dependencies": {
+    "@cap-js/sqlite": "^2.1.3",
+    "@sap/cds": "^9.7.1",
+    "express": "^4"
+  },
+  "devDependencies": {
+    "sqlite3": "^5.1.6"
+  },
+  "scripts": {
+    "start": "cds-serve",
+    "watch": "cds watch",
+    "deploy": "cds deploy"
+  },
+  "cds": { "requires": {
+   "db": {
+      "kind": "sqlite",
+      "credentials": { "url": "db/crc.sqlite" }
+    }
+  }}
+}
+
