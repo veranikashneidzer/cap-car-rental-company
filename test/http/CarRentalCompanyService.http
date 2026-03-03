@@ -8,7 +8,6 @@
 GET {{server}}/odata/v4/car-rental-company/Cars
 Authorization: Basic {{username}}:{{password}}
 
-
 ### Cars
 # @name Cars_POST
 POST {{server}}/odata/v4/car-rental-company/Cars

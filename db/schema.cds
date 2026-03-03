@@ -3,15 +3,19 @@ using { cuid } from '@sap/cds/common';
 namespace sap.carRentalCompany;
 
 entity Cars {
-  key licensePlate  : String;
-  brand  : localized String;
-  model : localized String;
-  manufactureDate : Date;
-  price : Decimal;
-  availability : Integer;
-  category : localized String;
-  rentals : Association to many Rentals on rentals.car = $self;
-  customer : Association to many Rentals on customer.car = $self;
+  key licensePlate  : String            @mandatory;
+  brand             : localized String  @mandatory;
+  model             : localized String  @mandatory;
+  manufactureDate   : Date              @mandatory;
+  price             : Decimal           @mandatory;
+  category          : Association to CarCategories;
+  rentals           : Association to many Rentals on rentals.car = $self;
+  maintenance       : Composition of many Maintenance on maintenance.car = $self;
+  status            : String;
+}
+
+entity CarCategories : cuid {
+  key name : String;
 }
 
 @assert.unique: { email: [email] }

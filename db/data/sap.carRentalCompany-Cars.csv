@@ -1,0 +1,13 @@
+licensePlate,brand,model,manufactureDate,price,category_name,status
+LTU-4821,Toyota,Corolla,2019-01-01,42,Sedan,STATUS_3
+KNR-7310,BMW,X5,2021-01-01,110,SUV,STATUS_2
+LVA-9934,Tesla,Model 3,2022-01-01,95,Sedan,STATUS_3
+KAS-5520,Ford,Focus,2018-01-01,38,Hatchback,STATUS_1
+LTK-2187,Audi,A4,2020-01-01,72,Sedan,STATUS_3
+BLT-6702,Volkswagen,Tiguan,2021-01-01,65,SUV,STATUS_2
+GNR-8851,Hyundai,i30,2019-01-01,35,Hatchback,STATUS_3
+TSK-4409,Mercedes-Benz,GLC,2023-01-01,120,SUV,STATUS_2
+VDK-1298,Kia,Sportage,2020-01-01,55,SUV,STATUS_3
+LNM-5733,Honda,Civic,2017-01-01,33,Sedan,STATUS_1
+VLS-2044,Skoda,Octavia,2020-01-01,48,Sedan,STATUS_3
+KLP-7186,Nissan,Qashqai,2022-01-01,58,SUV,STATUS_3
