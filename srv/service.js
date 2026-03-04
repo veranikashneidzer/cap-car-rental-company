@@ -49,7 +49,7 @@ module.exports = (srv) => {
 
   const validateCarsDataBeforeSubmit = async (req) => {
     const { manufactureDate, price, category_code } = req.data;
-    console.log('manufactureDate, price, category_code', manufactureDate, price, category_code);
+
     if (price !== undefined) {
       if (!Number.isInteger(price)) {
       req.error(400, `Price should be a number`, "price");
