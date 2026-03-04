@@ -11,18 +11,20 @@
     "express": "^4"
   },
   "devDependencies": {
-    "sqlite3": "^5.1.6"
+    "sqlite3": "^5.1.6",
+    "cds-plugin-ui5": "^0.13.0"
   },
   "scripts": {
     "start": "cds-serve",
     "watch": "cds watch",
-    "deploy": "cds deploy"
+    "deploy": "cds deploy",
+    "watch:debug": "node --inspect=9229 ./node_modules/@sap/cds/bin/cds.js watch",
+    "watch-crc-ui": "cds watch --open crcui/index.html?sap-ui-xx-viewCache=false --livereload false"
   },
-  "cds": { "requires": {
-   "db": {
-      "kind": "sqlite",
-      "credentials": { "url": "db/crc.sqlite" }
-    }
-  }}
+  "workspaces": [
+    "app/*"
+  ],
+  "sapux": [
+    "app/crc-ui"
+  ]
 }
-
