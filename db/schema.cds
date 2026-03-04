@@ -11,11 +11,17 @@ entity Cars {
   category          : Association to CarCategories;
   rentals           : Association to many Rentals on rentals.car = $self;
   maintenance       : Composition of many Maintenance on maintenance.car = $self;
-  status            : String;
 }
 
-entity CarCategories : cuid {
-  key name : String;
+entity CarStatuses {
+  key code : String;
+  label : String;
+  criticality: Integer
+}
+
+entity CarCategories {
+  key code : String;
+  name : String;
 }
 
 @assert.unique: { email: [email] }

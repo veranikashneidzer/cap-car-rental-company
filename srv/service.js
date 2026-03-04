@@ -1,39 +1,11 @@
 module.exports = (srv) => {
   const { Cars, CarCategories, Maintenance, Rentals } = cds.entities("CarRentalCompanyService");
 
-  const STATUSES = { 
-    STATUS_3: {
-      code: 'STATUS_3',
-      label: 'Available',
-      criticality: 3
-    },
-    STATUS_2: {
-      code: 'STATUS_2',
-      label: 'Rented',
-      criticality: 2
-    },
-    STATUS_1: {
-      code: 'STATUS_1',
-      label: 'Under Maintenance',
-      criticality: 1
-    }
-  };
-
-    const checkOverlaping = async (data, tx) => {
+  const checkOverlaping = async (data) => {
     const { car_licensePlate, startDate, endDate } = data;
 
-    const maintenancePreviousData = await tx.run(
-      SELECT.from(Maintenance)
-            .columns("startDate", "endDate")
-            .where({ car_licensePlate: car_licensePlate })
-    );
-
-    const rentalsPreviousData = await tx.run(
-      SELECT.from(Rentals)
-            .columns("rentalDate", "returnDate")
-            .where({ car_licensePlate: car_licensePlate })
-    );
-
+    const maintenancePreviousData = await SELECT.from(Maintenance).columns("startDate", "endDate").where({ car_licensePlate: car_licensePlate });
+    const rentalsPreviousData = await SELECT.from(Rentals).columns("rentalDate", "returnDate").where({ car_licensePlate: car_licensePlate });
     const startDateInMiliseconds = (new Date(startDate)).getTime();
     const endDateYearInMiliseconds = (new Date(endDate)).getTime();
 
@@ -58,19 +30,12 @@ module.exports = (srv) => {
 
   srv.before("CREATE", "Cars.drafts", async (req) => {
     const { licensePlate = ''} = req.data;
-    const tx = cds.transaction(req);
 
     if (!licensePlate) {
       return;
     }
 
-    const isLicensePlateExist = await tx.run(
-      SELECT.one
-            .from(Cars)
-            .columns('licensePlate')
-            .where({ licensePlate: licensePlate })
-    );
-
+    const isLicensePlateExist = await SELECT.one.from(Cars).columns('licensePlate').where({ licensePlate: licensePlate });
     if (isLicensePlateExist) {
       req.error(409, `The ${licensePlate} License Plate isn't unique.`, "licensePlate");
     }
@@ -82,62 +47,36 @@ module.exports = (srv) => {
     }
   });
 
-  srv.after("READ", "Cars", (cars, req) => {
-    const tx = cds.transaction(req);
-
-    console.log('READ cars', cars);
-
-    cars.forEach((car) => {
-      const { isOverlapingByMaintenance, isOverlapingByRentals } = checkOverlaping(car, tx);
-
-      if (isOverlapingByMaintenance) {
-        car.statusData = STATUSES['STATUS_1'];
-      } else if (isOverlapingByRentals) {
-        car.statusData = STATUSES['STATUS_2'];
-      } else {
-        car.statusData = STATUSES['STATUS_3'];
-      }
-    });
-  });
-
   const validateCarsDataBeforeSubmit = async (req) => {
-    const { manufactureDate, price, status_code, category_name } = req.data;
-    const tx = cds.transaction(req);
-
-    if (price) {
+    const { manufactureDate, price, category_code } = req.data;
+    console.log('manufactureDate, price, category_code', manufactureDate, price, category_code);
+    if (price !== undefined) {
       if (!Number.isInteger(price)) {
-        req.error(400, `Price should be a number`, "price");
-      } else if (price <= 0) {
-        req.error(400, `Price should be more than 0.`, "price");
-      }
+      req.error(400, `Price should be a number`, "price");
+    }
+    if (price <= 0) {
+      req.error(400, `Price should be more than 0.`, "price");
+    }
     }
     
-    if (manufactureDate) {
+    if (manufactureDate !== undefined) {
       const selectedYear = (new Date(manufactureDate)).getFullYear();
       if (!Number.isInteger(selectedYear)) {
         req.error(400, "Manufacture date should be a number.", "manufactureDate");
       } else {
-        const maxYear = new Date().getFullYear();
-        if (selectedYear > maxYear)
-          req.error(400, `Manufacture date should be less or equal than ${maxYear}.`, "manufactureDate");
-        if (selectedYear < maxYear - 15)
-          req.error(400, `Manufacture date should be equal or more than ${maxYear - 15}`, "manufactureDate");
+        const currentYear = new Date().getFullYear();
+        if (selectedYear > currentYear + 1)
+          req.error(400, `Manufacture date should be less or equal than ${currentYear + 1}.`, "manufactureDate");
+        if (selectedYear <= currentYear - 15)
+          req.error(400, `Manufacture date should be equal or more than ${currentYear - 15}`, "manufactureDate");
       }
     }
 
-    if (category_name) {
-      const isCategoryExist = await tx.run(
-        // SELECT.one
-        //       .from(CarCategories)
-        //       .columns("name")
-        //       .where({ name: category_name })
-      );
-      if (!isCategoryExist)
+    if (category_code !== undefined) {
+      const isCategoryExist = await SELECT.one.from(CarCategories).columns("code").where({ code: category_code });
+      if (!isCategoryExist) {
         req.error(400, "Wrong category was selected.", "category");
-    }
-
-    if (!STATUSES[status_code]) {
-      req.error(400, "Wrong status was selected.", "status_code");
+      }
     }
   }
 
@@ -147,7 +86,6 @@ module.exports = (srv) => {
 
   const validateMaintenanceDataBeforeSubmit = (req) => {
     const { startDate, endDate } = req.data;
-    const tx = cds.transaction(req);
 
     const startDateInMiliseconds = (new Date(startDate)).getTime();
     const endDateYearInMiliseconds = (new Date(endDate)).getTime();
@@ -157,7 +95,7 @@ module.exports = (srv) => {
       return;
     }
 
-    const { isOverlapingByMaintenance, isOverlapingByRentals } = checkOverlaping(req.data, tx);
+    const { isOverlapingByMaintenance, isOverlapingByRentals } = checkOverlaping(req.data);
 
     if (isOverlapingByMaintenance) {
       req.error(409, "Maintenance periods shouldn't be overlapping with each other.", "startDate");

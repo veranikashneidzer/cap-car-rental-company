@@ -20,9 +20,3 @@ File or Folder | Purpose
 ## Learn More
 
 Learn more at <https://cap.cloud.sap>.
-
-Баги
-Категория появляется дважды
-Лейблы статусов
-Статус убрать из ентити машины
-Uncaught TypeError: Cannot read properties of undefined (reading 'raw')

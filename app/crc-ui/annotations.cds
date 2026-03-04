@@ -55,7 +55,7 @@ annotate service.Cars with @(
                     $Type : 'UI.DataField',
                     ID : 'Category',
                     Label : '{i18n>category}',
-                    Value : category_name,
+                    Value : category_code,
                 },
                 {
                     $Type: 'UI.DataField',
@@ -107,8 +107,8 @@ annotate service.Cars with @(
             }
         ],
         SelectionFields : [
-            category_name,
-            status_code,
+            category_code,
+            status,
             manufactureDate,
             licensePlate
         ],
@@ -133,7 +133,36 @@ annotate service.Cars with @(
 annotate service.Cars with {
     status @Common.ValueListWithFixedValues: true;
     status @Common.Text: statusData.label;
-    status @Common.TextArrangement: #TextOnly;
+    status @(
+        Common.TextArrangement: #TextOnly,
+        Common.ValueList : {
+            $Type : 'Common.ValueListType',
+            CollectionPath : 'CarStatuses',
+            Parameters : [
+                {
+                    $Type : 'Common.ValueListParameterInOut',
+                    LocalDataProperty : status,
+                    ValueListProperty : 'code',
+                },
+            ],
+        },
+    );
+    category @Common.ValueListWithFixedValues: true;
+    category @Common.Text: category.name;
+    category @(
+        Common.TextArrangement: #TextOnly,
+        Common.ValueList : {
+            $Type : 'Common.ValueListType',
+            CollectionPath : 'CarCategories',
+            Parameters : [
+                {
+                    $Type : 'Common.ValueListParameterInOut',
+                    LocalDataProperty : category_code,
+                    ValueListProperty : 'code',
+                },
+            ],
+        },
+    );
 };
 
 annotate service.Cars with {
@@ -208,3 +237,15 @@ annotate service.Maintenance with @(
         ]
     }
 );
+annotate service.CarCategories with {
+    code @(
+        Common.Text : name,
+        Common.Text.@UI.TextArrangement : #TextOnly,
+)};
+
+annotate service.CarStatuses with {
+    code @(
+        Common.Text : label,
+        Common.Text.@UI.TextArrangement : #TextOnly,
+)};
+
