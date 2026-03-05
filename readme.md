@@ -1,3 +1,6 @@
+Tasks were placed in 2 files: task1 and task2.
+
+
 # Getting Started
 
 Welcome to your new CAP project.
